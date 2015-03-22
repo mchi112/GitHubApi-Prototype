@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>GitHub API Prototype</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <script src="GitHubApi.js"></script>
+    <script src="Scripts/jquery-2.1.3.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <h1>GitHub API Prototype</h1>
+    <p>Have your console open to read the results!</p>
+    <div id="getrepos">
+        <h3>"GET Repositories"</h3>
+        <form id="getrepoform">
+            Username: <input id="getrepousername" type="text" name="username" value="mchi112">
+            <input type="button" value="Submit">
+        </form>
+    </div>
+    <div id="getpr">
+        <h3>"GET Pull Requests"</h3>
+        <form id="getprform">
+            Username: <input id="getprusername" type="text" name="username" value="mchi112">
+            Repo: <input id="getprrepo" type="text" name="repo" value="CRPlayground">
+            <input type="button" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
