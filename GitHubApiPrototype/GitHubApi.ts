@@ -1,5 +1,10 @@
 ﻿///<reference path="Scripts/typings/jquery/jquery.d.ts"/>
 
+interface ICallback
+{
+    (response: any, textStatus: string, jqXHR: any): void;
+}
+
 class GitHubApi
 {
     private baseUrl: string;
@@ -9,23 +14,36 @@ class GitHubApi
         this.baseUrl = "https://api.github.com";
     }
 
-    public GetRepos(username: string, success: any, error: any)
+    public GetCommitComparison(username: string, repo: string, base: string, head: string, success: ICallback, error: ICallback)
     {
-        $.ajax({
-            url: this.baseUrl + "/users/" + username + "/repos",
-            dataType: "jsonp",
-            method: "GET",
-            success: success,
-            error: error
-        });
+        this.SendHttpRequest("/repos/" + username + "/" + repo + "/compare/" + base + "..." + head, "GET", success, error);
     }
 
-    public GetPullRequests(username: string, repo: string, success: any, error: any)
+    public GetCurrentUserRepos(success: ICallback, error: ICallback)
+    {
+        this.SendHttpRequest("/user/repos", "GET", success, error);
+    }
+
+    public GetCollaborators(username: string, repo: string, success: ICallback, error: ICallback)
+    {
+        this.SendHttpRequest("/repos/" + username + "/" + repo + "/collaborators", "GET", success, error);
+    }
+
+    public GetPullRequests(username: string, repo: string, success: ICallback, error: ICallback)
+    {
+        this.SendHttpRequest("/repos/" + username + "/" + repo + "/pulls", "GET", success, error);
+    }
+
+    public GetRepos(username: string, success: ICallback, error: ICallback) {
+        this.SendHttpRequest("/users/" + username + "/repos", "GET", success, error);
+    }
+
+    private SendHttpRequest(relativeUrl: string, method: string, success: ICallback, error: ICallback)
     {
         $.ajax({
-            url: this.baseUrl + "/repos/" + username + "/" + repo + "/pulls",
+            url: this.baseUrl + relativeUrl,
             dataType: "jsonp",
-            method: "GET",
+            method: method,
             success: success,
             error: error
         });
