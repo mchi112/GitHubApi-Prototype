@@ -34,8 +34,25 @@ class GitHubApi
         this.SendHttpRequest("/repos/" + username + "/" + repo + "/pulls", "GET", success, error);
     }
 
-    public GetRepos(username: string, success: ICallback, error: ICallback) {
+    public GetRepos(username: string, success: ICallback, error: ICallback)
+    {
         this.SendHttpRequest("/users/" + username + "/repos", "GET", success, error);
+    }
+
+    /**
+     * Retrieves a string[] of repo names belonging to the specified username.
+     */
+    public GetRepoNameList(username: string, success: ICallback, error: ICallback) {
+        var dataRetriever: ICallback = function (response: any, textStatus: string, jqXHR: any)
+        {
+            var nameList: string[] = [];
+            for (var i = 0; i < response.data.length; i++)
+            {
+                nameList.push(response.data[i].name);
+            }
+            success(nameList, textStatus, jqXHR);
+        }
+        this.SendHttpRequest("/users/" + username + "/repos", "GET", dataRetriever, error);
     }
 
     private SendHttpRequest(relativeUrl: string, method: string, success: ICallback, error: ICallback)
