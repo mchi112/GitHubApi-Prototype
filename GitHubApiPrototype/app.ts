@@ -1,17 +1,24 @@
 ﻿/// <reference path="./GitHubApi.ts"/>
 
 window.onload = () => {
-    var api = new GitHubApi();
+    var authOptions: GitHub.AuthSettings = { token: "12345abcde" };
+    var api = new GitHub.Api(authOptions);
 
-    $("#getrepoform").click(function (event) {
-        api.GetRepos($("#getrepousername").val(), successGetRepo, error);
-    });
+    //$("#getrepoform").click(function (event) {
+    //    api.GetJsonRepos($("#getrepousername").val(), successGetRepo, error);
+    //});
 
-    $("#getprform").click(function (event) {
-        api.GetPullRequests($("#getprusername").val(), $("#getprrepo").val(), successPullReq, error);
-    });
+    //$("#getprform").click(function (event) {
+    //    api.GetJsonPullRequests($("#getprusername").val(), $("#getprrepo").val(), successPullReq, error);
+    //});
 
-    api.GetCommitComparison("mchi112", "CRPlayground", "master", "feature", successDiff, error);
+    //api.GetJsonCommitComparison("mchi112", "CRPlayground", "master", "feature", successDiff, error);
+
+    api.GetRepoNameList("mchi112", function (list) {
+        console.log(list[0]);
+        console.log(list[1]);
+        console.log(list[2]);
+    }, error);
 };
 
 function successGetRepo(response: any): void {
